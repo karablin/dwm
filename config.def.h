@@ -12,10 +12,26 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+static const char col1[]            = "#ffffff";
+static const char col2[]            = "#ffffff";
+static const char col3[]            = "#ffffff";
+static const char col4[]            = "#ffffff";
+static const char col5[]            = "#ffffff";
+static const char col6[]            = "#ffffff";
+
+enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
+       SchemeCol5, SchemeCol6, SchemeSel }; /* color schemes */
+
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeNorm]  = { col_gray3, col_gray1, col_gray2 },
+	[SchemeCol1]  = { col1,      col_gray1, col_gray2 },
+	[SchemeCol2]  = { col2,      col_gray1, col_gray2 },
+	[SchemeCol3]  = { col3,      col_gray1, col_gray2 },
+	[SchemeCol4]  = { col4,      col_gray1, col_gray2 },
+	[SchemeCol5]  = { col5,      col_gray1, col_gray2 },
+	[SchemeCol6]  = { col6,      col_gray1, col_gray2 },
+	[SchemeSel]   = { col_gray4, col_cyan,  col_cyan  },
 };
 
 /* tagging */
@@ -34,7 +50,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
@@ -58,7 +74,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "alacritty", NULL };
 static const char *screenshot[] = { "flameshot", "gui", NULL };
 static const char *rofi[] = { "rofi", "-show", "drun", "-show-icons", NULL };
 
@@ -107,7 +123,9 @@ static const Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	{ ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
+	{ ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
+	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
